@@ -1,0 +1,23 @@
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# TypeScript compilation artifacts
+*.js
+*.js.map
+dist/
+build/
+coverage/
+
+# VS Code specific files
+.vscode/
+
+# Environment variables
+.env
+.env.*
+
+# Playwright examples (optional, if you're not using them)
+tests-examples/

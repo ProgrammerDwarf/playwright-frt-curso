@@ -45,7 +45,7 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
   test("Se verfica que los checkbox son visibles, se pueden marcar y desmarcar", async ({
     page,
   }) => {
-    let checkboxesAVerificar = [
+    let checkboxesAVerificar: {text: string}[]  = [
       { text: "Pizza 🍕" },
       { text: "Hamburguesa 🍔" },
       { text: "Pasta 🍝" },
@@ -60,7 +60,7 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
     });
 
     for (const checkbox of checkboxesAVerificar) {
-      const checkboxLocator = page.getByRole("checkbox", {
+      const checkboxLocator: Locator = page.getByRole("checkbox", {
         name: checkbox.text,
       });
 

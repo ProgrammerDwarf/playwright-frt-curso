@@ -1,4 +1,4 @@
-import { test, expect, Locator } from "@playwright/test";
+import { test, expect, Locator, Page } from "@playwright/test";
 
 test.describe("Pruebas UI en el sandbox de FRT", () => {
   test("Hago click en el elemento web", async ({ page }) => {
@@ -87,4 +87,37 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
       });
     }
   });
+
+  test("Validamos que los radio button pueden ser marcados", async ({
+    page,
+  }) => {
+
+    let radioButtons: { text: string}[] = [
+      { text: 'Si'},
+      { text: 'No'}
+    ]; 
+
+    await test.step("", async() => {
+      await page.goto("https://thefreerangetester.github.io/sandbox-automation-testing/");
+    });
+
+    for (const rabioButton of radioButtons) {
+      const rabioButtonLocator: Locator = page.getByRole('radio',
+         { name: rabioButton.text }
+        );
+
+      await test.step("Verificamos que el ambos radio buttons son visibles", async() => {
+        await expect(rabioButtonLocator, {message: `El rabio button "${rabioButton.text}" no es visible`}).toBeVisible();
+      });
+
+      await test.step("Validamos que el radio button se puede marcar", async () => {
+        if(!(await rabioButtonLocator.isChecked())) {
+          await rabioButtonLocator.check();
+        }
+
+        await expect(rabioButtonLocator, {message: `El radiobutton "${rabioButton.text}" no ha podido marcarse`}).toBeChecked();
+      });
+    };
+  });
+
 });

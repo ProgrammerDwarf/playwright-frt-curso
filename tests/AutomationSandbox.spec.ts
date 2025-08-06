@@ -97,27 +97,48 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
       { text: 'No'}
     ]; 
 
-    await test.step("", async() => {
+    await test.step("vamos a la pagina de FRT sandbox", async() => {
       await page.goto("https://thefreerangetester.github.io/sandbox-automation-testing/");
     });
 
-    for (const rabioButton of radioButtons) {
-      const rabioButtonLocator: Locator = page.getByRole('radio',
-         { name: rabioButton.text }
+    for (const radioButton of radioButtons) {
+      const radioButtonLocator: Locator = page.getByRole('radio',
+         { name: radioButton.text }
         );
 
       await test.step("Verificamos que el ambos radio buttons son visibles", async() => {
-        await expect(rabioButtonLocator, {message: `El rabio button "${rabioButton.text}" no es visible`}).toBeVisible();
+        await expect(radioButtonLocator, {message: `El rabio button "${radioButton.text}" no es visible`}).toBeVisible();
       });
 
       await test.step("Validamos que el radio button se puede marcar", async () => {
-        if(!(await rabioButtonLocator.isChecked())) {
-          await rabioButtonLocator.check();
+        if(!(await radioButtonLocator.isChecked())) {
+          await radioButtonLocator.check();
         }
 
-        await expect(rabioButtonLocator, {message: `El radiobutton "${rabioButton.text}" no ha podido marcarse`}).toBeChecked();
+        await expect(radioButtonLocator, {message: `El radiobutton "${radioButton.text}" no ha podido marcarse`}).toBeChecked();
       });
     };
   });
 
+  test("Validamos que el dropdown funciona como corresponde", async ({ page }) => {
+    await test.step('Dado que voy a la pagina', async () => {
+      await page.goto(`https://thefreerangetester.github.io/sandbox-automation-testing`);
+    });
+    
+    await test.step("Entonce seleccionamos un deporte del dropdown", async() => {
+      const locator_dropwdown: Locator = page.getByRole('combobox', 
+        {name: "Dropdown"}
+      );
+
+      // const dropdown_options = [
+      //   {text: 'Futbol'},
+      //   {text: 'Tennis'},
+      //   {text: 'Basketball'},
+      // ];
+
+      // for (dd)
+      
+    await locator_dropwdown.selectOption('Tennis');
+    });
+  });
 });

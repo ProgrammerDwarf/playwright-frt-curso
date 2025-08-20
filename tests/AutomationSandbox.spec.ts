@@ -45,7 +45,7 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
   test("Se verfica que los checkbox son visibles, se pueden marcar y desmarcar", async ({
     page,
   }) => {
-    let checkboxesAVerificar: {text: string}[]  = [
+    let checkboxesAVerificar: { text: string }[] = [
       { text: "Pizza 🍕" },
       { text: "Hamburguesa 🍔" },
       { text: "Pasta 🍝" },
@@ -92,53 +92,61 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
     page,
   }) => {
 
-    let radioButtons: { text: string}[] = [
-      { text: 'Si'},
-      { text: 'No'}
-    ]; 
+    let radioButtons: { text: string }[] = [
+      { text: 'Si' },
+      { text: 'No' }
+    ];
 
-    await test.step("vamos a la pagina de FRT sandbox", async() => {
+    await test.step("vamos a la pagina de FRT sandbox", async () => {
       await page.goto("https://thefreerangetester.github.io/sandbox-automation-testing/");
     });
 
     for (const radioButton of radioButtons) {
       const radioButtonLocator: Locator = page.getByRole('radio',
-         { name: radioButton.text }
-        );
+        { name: radioButton.text }
+      );
 
-      await test.step("Verificamos que el ambos radio buttons son visibles", async() => {
-        await expect(radioButtonLocator, {message: `El rabio button "${radioButton.text}" no es visible`}).toBeVisible();
+      await test.step("Verificamos que el ambos radio buttons son visibles", async () => {
+        await expect(radioButtonLocator, { message: `El rabio button "${radioButton.text}" no es visible` }).toBeVisible();
       });
 
       await test.step("Validamos que el radio button se puede marcar", async () => {
-        if(!(await radioButtonLocator.isChecked())) {
+        if (!(await radioButtonLocator.isChecked())) {
           await radioButtonLocator.check();
         }
 
-        await expect(radioButtonLocator, {message: `El radiobutton "${radioButton.text}" no ha podido marcarse`}).toBeChecked();
+        await expect(radioButtonLocator, { message: `El radiobutton "${radioButton.text}" no ha podido marcarse` }).toBeChecked();
       });
     };
   });
 
   test("Validamos que el dropdown funciona como corresponde", async ({ page }) => {
-    await test.step('Dado que voy a la pagina', async () => {
+    await test.step('Dado que voy a la pagina de sandbox', async () => {
       await page.goto(`https://thefreerangetester.github.io/sandbox-automation-testing`);
     });
-    
-    await test.step("Entonce seleccionamos un deporte del dropdown", async() => {
-      const locator_dropwdown: Locator = page.getByRole('combobox', 
-        {name: "Dropdown"}
+
+    await test.step("Cuando ubicamos la lista desplegable de deportes", async () => {
+      const locator_dropdown: Locator = page.getByRole('combobox',
+        { name: "Dropdown" }
       );
 
-      // const dropdown_options = [
-      //   {text: 'Futbol'},
-      //   {text: 'Tennis'},
-      //   {text: 'Basketball'},
-      // ];
+      await expect(locator_dropdown).toBeVisible();
+    });
 
-      // for (dd)
-      
-    await locator_dropwdown.selectOption('Tennis');
+    await test.step("Entonces seleccionamos las opciones dentro de la lista desplegable", async () => {
+      const locator_dropdown: Locator = page.getByRole('combobox',
+        { name: "Dropdown" }
+      );
+      let opciones_de_deportes: { text: string }[] = [
+        { text: 'Tennis' },
+        { text: 'Fútbol' },
+        { text: 'Basketball' },
+      ];
+
+      for (const deporte of opciones_de_deportes) {
+        await locator_dropdown.selectOption(deporte.text);
+        expect(deporte.text).toBe(deporte.text)
+      };
     });
   });
 });

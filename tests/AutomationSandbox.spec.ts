@@ -134,9 +134,8 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
     });
 
     await test.step("Entonces seleccionamos las opciones dentro de la lista desplegable", async () => {
-      const locator_dropdown: Locator = page.getByRole('combobox',
-        { name: "Dropdown" }
-      );
+      const locator_dropdown: Locator = page.getByRole('combobox',{ name: "Dropdown" });
+
       let opciones_de_deportes: { text: string }[] = [
         { text: 'Tennis' },
         { text: 'Fútbol' },
@@ -148,5 +147,38 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
         expect(deporte.text).toBe(deporte.text)
       };
     });
+  });
+
+  test("Verificamos que la lista desplegable de días funciona", async ({ page }) =>{
+    await test.step('Dado que voy a la pagina de sandbox', async () => {
+      await page.goto(`https://thefreerangetester.github.io/sandbox-automation-testing`);
+    });
+  
+    await test.step('Cuando hacemos clic en el botón ', async () => {
+      const dias_dropdown: Locator = page.getByRole('button', { name: 'Día de la semana' });
+    });
+
+    await test.step('Y seleccionamos un día de la semana', async () => {
+      const dias_dropdown: Locator = page.getByRole('button', { name: 'Día de la semana' });
+      let dias_de_la_semana: {text: string}[] = [
+        {text: 'Lunes'},
+        {text: 'Martes'},
+        {text: 'Miércoles'},
+        {text: 'Jueves'},
+        {text: 'Viernes'},
+        {text: 'Sábado'},
+        {text: 'Domingo'},
+      ];
+       
+      for (const dias of dias_de_la_semana){
+        
+        await dias_dropdown.click();
+        
+        const dia_opcion: Locator = page.getByRole('link', { name: dias.text });
+
+        await dia_opcion.click();
+      };
+    });
+    
   });
 });

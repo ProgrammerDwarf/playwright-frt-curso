@@ -181,4 +181,28 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
     });
     
   });
+
+  test("Verificamos el que el pop up se despliega tal cual esperamos", async ({page}) => {
+    await test.step('Dado que voy al sandbox de freerangetester', async()=>{
+      await page.goto(`https://thefreerangetester.github.io/sandbox-automation-testing/`);
+    });
+
+    await test.step('Cuando hago click en el botón', async () => {
+      let boton_locator: Locator = page.getByRole('button', { name: 'Mostrar popup' });
+
+      await boton_locator.click();
+
+      let titulo_en_modal: Locator = page.locator('div').filter({ hasText: 'Popup de ejemplo' }).nth(3);
+      let mensaje_dentro_modal: Locator = page.getByText('¿Viste? ¡Apareció un Pop-up!')
+      let boton_cerrar: Locator = page.getByRole('button', { name: 'Cerrar' });
+
+      await expect(titulo_en_modal).toHaveText('Popup de ejemplo');
+      await expect(mensaje_dentro_modal).toHaveText('¿Viste? ¡Apareció un Pop-up!');
+      await expect(boton_cerrar).toBeVisible();
+      await expect(boton_cerrar).toHaveText('Cerrar');
+
+      await boton_cerrar.click();
+    });
+    
+  });
 });

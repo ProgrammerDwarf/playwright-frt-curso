@@ -144,8 +144,7 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
       for (const deporte of opcionesDeportesEsperadas) {
         const deporteLocator: Locator = dropdownDeportes.getByRole('option', {name: deporte});
         await expect(deporteLocator).toHaveCount(1);
-        
-      }
+      };
       //OTRA OPCION QUE VERIFICA QUE AMBAS LISTAS TIENEN EL CONTENIDO QUE SE ESPERA
       // const textoDeOpciones = await page.$$eval('select#formBasicSelect > option', (opciones) =>{
       //   return opciones.map(opcion => opcion.textContent);
@@ -179,8 +178,8 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
     });
 
     await test.step('Y seleccionamos un día de la semana', async () => {
-      const dias_dropdown: Locator = page.getByRole('button', { name: 'Día de la semana' });
-      let dias_de_la_semana: {text: string}[] = [
+      const diasDropdown: Locator = page.getByRole('button', { name: 'Día de la semana' });
+      let diasDeLaSemana: {text: string}[] = [
         {text: 'Lunes'},
         {text: 'Martes'},
         {text: 'Miércoles'},
@@ -190,13 +189,13 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
         {text: 'Domingo'},
       ];
        
-      for (const dias of dias_de_la_semana){
+      for (const dias of diasDeLaSemana){
         
-        await dias_dropdown.click();
+        await diasDropdown.click();
         
-        const dia_opcion: Locator = page.getByRole('link', { name: dias.text });
+        const diaOpcion: Locator = page.getByRole('link', { name: dias.text });
 
-        await dia_opcion.click();
+        await diaOpcion.click();
       };
     });
     

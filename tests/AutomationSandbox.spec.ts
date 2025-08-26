@@ -121,32 +121,52 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
   });
 
   test("Validamos que el dropdown funciona como corresponde", async ({ page }) => {
+    const opcionesDeportesEsperadas: string[] = [
+        'Seleccioná un deporte',
+        'Tennis',
+        'Fútbol',
+        'Basketball',
+      ];
+
     await test.step('Dado que voy a la pagina de sandbox', async () => {
       await page.goto(`https://thefreerangetester.github.io/sandbox-automation-testing`);
     });
 
-    await test.step("Cuando ubicamos la lista desplegable de deportes", async () => {
-      const locator_dropdown: Locator = page.getByRole('combobox',
+    await test.step("Cuando visualizo el dropdown, valido que las opciones son las esperadas", async () => {
+      const dropdownDeportes: Locator = page.getByRole('combobox',
         { name: "Dropdown" }
       );
+      const opcionesDeportes: Locator = dropdownDeportes.getByRole('option');
+        
+      await expect(dropdownDeportes).toBeVisible();
+      await expect(opcionesDeportes, `La cantidad esperada es ${opcionesDeportesEsperadas.length} y la cantidad obtenida es ${opcionesDeportes.count()}`).toHaveCount(opcionesDeportesEsperadas.length);
+      
+      for (const deporte of opcionesDeportesEsperadas) {
+        const deporteLocator: Locator = dropdownDeportes.getByRole('option', {name: deporte});
+        await expect(deporteLocator).toHaveCount(1);
+        
+      }
+      //OTRA OPCION QUE VERIFICA QUE AMBAS LISTAS TIENEN EL CONTENIDO QUE SE ESPERA
+      // const textoDeOpciones = await page.$$eval('select#formBasicSelect > option', (opciones) =>{
+      //   return opciones.map(opcion => opcion.textContent);
+      // });
 
-      await expect(locator_dropdown).toBeVisible();
+      // //se ordena la lista 
+      // const opcionesDeportesEsperadasOrdenados = [...opcionesDeportesEsperadas].sort();
+      // const textoDeOpcionesOrdenados = [...textoDeOpciones.sort()];
+
+      // await expect(textoDeOpcionesOrdenados).toEqual(opcionesDeportesEsperadasOrdenados)
     });
 
-    await test.step("Entonces seleccionamos las opciones dentro de la lista desplegable", async () => {
-      const locator_dropdown: Locator = page.getByRole('combobox',{ name: "Dropdown" });
-
-      let opciones_de_deportes: { text: string }[] = [
-        { text: 'Tennis' },
-        { text: 'Fútbol' },
-        { text: 'Basketball' },
-      ];
-
-      for (const deporte of opciones_de_deportes) {
-        await locator_dropdown.selectOption(deporte.text);
-        expect(deporte.text).toBe(deporte.text)
+    await test.step('Entonces selecciono una opcion y verifico que se mantieen', async () => {
+      const dropdownLocator: Locator = page.locator('select#formBasicSelect');
+     
+      for (const deporte of opcionesDeportesEsperadas){
+        await dropdownLocator.selectOption({label: deporte});
+        await expect(dropdownLocator.locator('option:checked')).toHaveText(deporte);
       };
     });
+    
   });
 
   test("Verificamos que la lista desplegable de días funciona", async ({ page }) =>{

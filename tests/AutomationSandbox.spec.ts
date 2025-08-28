@@ -224,4 +224,43 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
     });
     
   });
+
+  test('Verificamos los valores de la tabla estática', async ({ page }) => {
+    await test.step('Dado que navego a la página de sandbox de freerangetester', async () => {
+      await page.goto(`https://thefreerangetester.github.io/sandbox-automation-testing/`);
+    });
+
+    await test.step('Cuando valido los valores de la tabla', async () => {
+      const nombresEsperados: string[] = ['Messi', 'Ronaldo', 'Mbappe'];
+      const nombresEnTabla: string[] = await page.$$eval('h2:has-text("Tabla estática") + table tbody tr td:nth-child(2)',
+        nombres => nombres.map(nombre => nombre.textContent)
+       );
+      
+       expect(nombresEnTabla).toEqual(nombresEsperados);
+    });
+  });
+
+  test('Verificamos datos en la tabla dinámica', async ({ page }) => {
+    await test.step('Dado que navego a la página de sandbox', async () => {
+      await page.goto("https://thefreerangetester.github.io/sandbox-automation-testing/");
+    });
+    
+    await test.step('Cuando valido los datos de la tabla dinamica', async () => {
+      const datosTabla: string[] = await page.$$eval('h2:has-text("Tabla dinámica") + table tbody tr td',
+        datos => datos.map(dato => dato.textContent)
+      );
+
+
+      await page.reload();
+
+      const datosTablaRefreshed: string[] = await page.$$eval('h2:has-text("Tabla dinámica") + table tbody tr td',
+        datos => datos.map(dato => dato.textContent)
+      );
+      
+      expect(datosTablaRefreshed).not.toEqual(datosTabla);
+    });
+    
+  })
+  
+  
 });

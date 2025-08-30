@@ -247,7 +247,7 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
     
     await test.step('Cuando valido los datos de la tabla dinamica', async () => {
       const datosTabla: string[] = await page.$$eval('h2:has-text("Tabla dinámica") + table tbody tr td',
-        datos => datos.map(dato => dato.textContent)
+        datos => datos.map(dato => dato.textContent) // $$eval sirve para extraer data de un elemento y además le pasamos una función que interacturá con esa data
       );
 
 

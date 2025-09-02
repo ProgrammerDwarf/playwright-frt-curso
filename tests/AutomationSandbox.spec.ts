@@ -260,7 +260,34 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
       expect(datosTablaRefreshed).not.toEqual(datosTabla);
     });
     
-  })
+  });
+
+  test('Validamos que los títulos de cada sección son visibles con soft-assertions', async ({ page }) => {
+    await test.step('Dado que navego al sandbox de FreeRangeTesters', async () => {
+      await page.goto('https://thefreerangetester.github.io/sandbox-automation-testing/');
+      await expect(page).toHaveTitle('Automation Sandbox');
+    });
+
+    await test.step('Valido que los títulos de las secciones son correctos ', async () => {
+      const titulosEsperados: string[] = [
+        'Free Range Testers Sandbox 🤖',
+        'Botón con ID dinámico y elemento oculto 😮',
+        'Un aburrido texto',
+        'Checkboxes',
+        'Radio Buttons',
+        'Dropdown',
+        'Popup',
+        'Shadow DOM',
+        'Tabla dinámica',
+        'Tabla estática',
+      ];
+
+      for(const titulo of titulosEsperados){
+        await expect.soft(page.getByText(titulo, {exact: true})).toBeVisible();
+      }
+    });
+      
+  });
   
   
 });

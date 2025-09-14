@@ -2,6 +2,7 @@ import { test, expect, Locator, Page } from "@playwright/test";
 
 test.describe("Pruebas UI en el sandbox de FRT", () => {
   test("Hago click en el elemento web", async ({ page }) => {
+    test.skip();
     await test.step("Voy a la pagina de FRT sandbox", async () => {
       await page.goto(
         "https://thefreerangetester.github.io/sandbox-automation-testing/"
@@ -20,9 +21,7 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
     });
   });
 
-  test("Verificamos que el campo de texto esté vacío y puede ser escrito", async ({
-    page,
-  }) => {
+  test.fixme("Verificamos que el campo de texto esté vacío y puede ser escrito  - AUN NO IMPLEMENTADO", async ({ page,}) => {
     await test.step("Vamos al Sandbox de FRT", async () => {
       await page.goto(
         "https://thefreerangetester.github.io/sandbox-automation-testing/"
@@ -42,9 +41,7 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
     });
   });
 
-  test("Se verfica que los checkbox son visibles, se pueden marcar y desmarcar", async ({
-    page,
-  }) => {
+  test("Se verfica que los checkbox son visibles, se pueden marcar y desmarcar", async ({page,}) => {
     let checkboxesAVerificar: { text: string }[] = [
       { text: "Pizza 🍕" },
       { text: "Hamburguesa 🍔" },
@@ -57,6 +54,11 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
       await page.goto(
         "https://thefreerangetester.github.io/sandbox-automation-testing/"
       );
+    });
+
+    await test.info().attach('screenshot', {
+      body: await page.screenshot(),
+      contentType: 'image/png',
     });
 
     for (const checkbox of checkboxesAVerificar) {
@@ -88,9 +90,7 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
     }
   });
 
-  test("Validamos que los radio button pueden ser marcados", async ({
-    page,
-  }) => {
+  test("Validamos que los radio button pueden ser marcados", async ({page}) => {
 
     let radioButtons: { text: string }[] = [
       { text: 'Si' },
@@ -229,9 +229,9 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
     await test.step('Dado que navego a la página de sandbox de freerangetester', async () => {
       await page.goto(`https://thefreerangetester.github.io/sandbox-automation-testing/`);
     });
-
+    test.fail(); //incorporación del test fail
     await test.step('Cuando valido los valores de la tabla', async () => {
-      const nombresEsperados: string[] = ['Messi', 'Ronaldo', 'Mbappe'];
+      const nombresEsperados: string[] = ['Messi', 'Ronaldo', 'Arango'];
       const nombresEnTabla: string[] = await page.$$eval('h2:has-text("Tabla estática") + table tbody tr td:nth-child(2)',
         nombres => nombres.map(nombre => nombre.textContent)
        );
@@ -288,6 +288,5 @@ test.describe("Pruebas UI en el sandbox de FRT", () => {
     });
       
   });
-  
   
 });

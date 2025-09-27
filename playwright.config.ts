@@ -49,6 +49,18 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'] },
     },
 
+    {
+      name: 'API Tests',
+      testMatch: 'APITests/**/*',
+      use: {
+        baseURL: 'https://api.github.com',
+        extraHTTPHeaders: {
+          'Accept': 'application/vnd.github+json',
+          'Authorization': `token ${process.env.API_TOKEN}`,
+        }
+      }
+    },
+
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',

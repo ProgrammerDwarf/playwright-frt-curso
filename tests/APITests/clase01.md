@@ -54,4 +54,34 @@ El **objeto** `use` se usa para configurar las opciones y el comportamiento de t
 
 #### ¿Los valores `accept` y `auth` de dónde se los saco o dónde los busco?
 
-En el curso, `accept` le está diciendo al servidor, en este caso Github: "Mirá, usá la versión 3 de tu API para responder a mis solicitudes" 
+En el curso, `accept` le está diciendo al servidor, en este caso Github: "Mirá, usá la versión 3 de tu API para responder a mis solicitudes". Ahora `authorization`, en cambio, dice que estoy autorizado para ahcer la petición usando el token que se está entregando.
+
+`${process.env.API_TOKEN}` es una práctica de seguridad le estás diciendo a **node** que lea el valor de la variable del sistema, evitando escribir directamente la info en el código.
+
+### Más dudas
+1. ¿La ruta usada en testMatch es relativa a qué archivo?
+2. ¿Son los formatos .spec.ts y test.ts equivalentes?
+3. ¿Cuándo se establece una variable de entorno en la terminal en dónde se aloja?
+4. ¿Se puede crear un archivo para almacenar las variables de entorno?
+
+### Más respuestas
+
+#### ¿La ruta usada en testMatch es relativa a qué archivo?
+Es relativa a la propiedad testDir dentro del archivo `playwright.config.ts`
+
+#### ¿Son los formatos .spec.ts y test.ts equivalentes?
+Sí, son equivalentes. 
+- spec: viene de especificación, heredado del estilo de escritura en BDD
+- test: convención para nombrar archivos de prueba
+
+#### ¿Cuándo se establece una variable de entorno en la terminal en dónde se aloja?
+En la memoria temporal de esa sesión de terminal. No va a ningún archivo cuando se hace de esta manera.
+Es decir que al hacer esto, todos los scripts desde esa misma ventana de terminal leerán las variables de entorno establecidas.
+
+#### ¿Se puede crear un archivo para almacenar las variables de entorno?
+Sí, en la raíz del proyecto se puede crear un archivo `.env` y, dentro de este, se guardan las variables en formato clave-valor
+
+Luego, se puede usar una librería como **dotenv** para leer el archivo al iniciar la app y cargar esas variables de entorno en `process.env` (node) haciéndolas disponibles para Playwright.
+
+**Nota**: Al hacer esto, recordar agregar el archivo `.env` en el `.gitignore` para que no se agregue al repo cuando sea subido al Github.
+**Nota 2**: Para entornos de CI/CD puede que esto no sea necesario porque las plataformas pueden contener sistemas de gestión de secretos.

@@ -1,4 +1,4 @@
- import { test, expect} from '@playwright/test';
+ import { test, expect } from '@playwright/test';
 
  const REPO = 'playwright-frt-curso';
  const USER = 'ProgrammerDwarf';

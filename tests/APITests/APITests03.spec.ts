@@ -12,7 +12,7 @@ test.beforeAll( async({ playwright }) => {
         baseURL: `https://api.github.com`,
         extraHTTPHeaders: {
             'Accept': 'application/vnd.github+json',
-            'Authorization': `token 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`,
+            'Authorization': `token ${process.env.API_TOKEN}`,
         },
     });
 });

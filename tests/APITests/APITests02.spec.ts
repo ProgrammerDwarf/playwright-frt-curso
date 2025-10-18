@@ -1,6 +1,6 @@
  import { test, expect, } from '@playwright/test';
 
- const REPO = 'REPO-LOCO-NUEVO';
+ const REPO = 'REPO-LOCO';
  const USER = 'ProgrammerDwarf';
 
  const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -24,7 +24,7 @@
 
     expect(newIssue.status()).toBe(201);
 
-    await sleep(2000);
+    await sleep(3000);
 
      const issues = await request.get(`/repos/${USER}/${REPO}/issues`);
      expect(issues.ok()).toBeTruthy();
@@ -34,9 +34,9 @@
      }));
  });
 
- test.afterAll(async ({ request }) => {
-    const response = await request.delete(`/repos/${USER}/${REPO}`);
-    expect(response.ok()).toBeTruthy();
- });
+//  test.afterAll(async ({ request }) => {
+//     const response = await request.delete(`/repos/${USER}/${REPO}`);
+//     expect(response.ok()).toBeTruthy();
+//  });
  
  
